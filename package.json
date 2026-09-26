@@ -1,0 +1,30 @@
+{
+  "name": "blackrivor-wrap-studio",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:seed": "node scripts/seed.mjs",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.48.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "gsap": "^3.13.0",
+    "nuxt": "^4.5.2",
+    "postgres": "^3.4.7",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^3.19.2",
+    "@types/node": "^24.5.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

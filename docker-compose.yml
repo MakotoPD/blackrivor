@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: blackrivor
+      POSTGRES_USER: blackrivor
+      POSTGRES_PASSWORD: blackrivor
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blackrivor -d blackrivor"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://blackrivor:blackrivor@db:5432/blackrivor
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@blackrivor.co.uk}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-me-now}
+      SESSION_SECRET: ${SESSION_SECRET:-replace-this-in-production}
+      NUXT_PUBLIC_SITE_URL: ${NUXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      NUXT_PUBLIC_PHONE: ${NUXT_PUBLIC_PHONE:-+44 7400 123 456}
+      NUXT_PUBLIC_EMAIL: ${NUXT_PUBLIC_EMAIL:-hello@blackrivor.co.uk}
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+
