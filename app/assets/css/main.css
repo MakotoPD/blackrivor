@@ -53,6 +53,13 @@ a {
   touch-action: manipulation;
 }
 
+.eyebrow {
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -62,4 +69,3 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
-
