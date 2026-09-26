@@ -42,6 +42,8 @@ export default defineEventHandler(async (event) => {
   })
   if (!result) throw createError({ statusCode: 500, statusMessage: 'Could not save enquiry' })
 
+  await notifyIntegrations('new_enquiry', `${payload.name} requested ${payload.service} for ${payload.vehicle}. Contact: ${payload.phone}, ${payload.email}.`)
+
   setResponseStatus(event, 201)
   return { ok: true, id: result.id }
 })

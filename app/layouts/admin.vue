@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CalendarDays, ClipboardList, Inbox, LayoutDashboard, LogOut, Mail, Menu, PackageOpen, Users, X, ExternalLink } from '@lucide/vue'
+import { CalendarDays, ClipboardList, Inbox, LayoutDashboard, LogOut, Mail, Menu, PackageOpen, Settings2, Users, X, ExternalLink } from '@lucide/vue'
 
 const route = useRoute()
 const mobileOpen = ref(false)
@@ -10,7 +10,8 @@ const nav = [
   { label: 'Clients', to: '/admin/clients', icon: Users },
   { label: 'Jobs', to: '/admin/jobs', icon: ClipboardList },
   { label: 'Film inventory', to: '/admin/inventory', icon: PackageOpen },
-  { label: 'Newsletter', to: '/admin/newsletter', icon: Mail }
+  { label: 'Newsletter', to: '/admin/newsletter', icon: Mail },
+  { label: 'Integrations', to: '/admin/integrations', icon: Settings2 }
 ]
 
 async function logout() {
@@ -70,4 +71,3 @@ watch(() => route.path, () => { mobileOpen.value = false })
 .drawer-enter-active, .drawer-leave-active { transition: transform .3s ease; }
 .drawer-enter-from, .drawer-leave-to { transform: translateX(100%); }
 </style>
-
