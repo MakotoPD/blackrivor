@@ -9,6 +9,8 @@ const cars = [
 
 const active = ref(0)
 const incoming = ref(1)
+const activeCar = computed(() => cars[active.value]!)
+const incomingCar = computed(() => cars[incoming.value]!)
 const overlay = ref<HTMLImageElement | null>(null)
 let timer: ReturnType<typeof setInterval> | undefined
 let gsapApi: typeof import('gsap')['default'] | undefined
@@ -81,16 +83,16 @@ onBeforeUnmount(() => {
 
       <div class="car-stage pointer-events-none absolute bottom-[120px] left-1/2 z-0 w-[175vw] max-w-none -translate-x-[53%] sm:bottom-[70px] sm:w-[1260px] sm:-translate-x-1/2 lg:bottom-[32px] lg:w-[min(94vw,1650px)] lg:translate-x-[-45%]">
         <img
-          :src="cars[active].src"
-          :alt="`${cars[active].name} wrapped sports coupe`"
+          :src="activeCar.src"
+          :alt="`${activeCar.name} wrapped sports coupe`"
           class="block h-auto w-full object-contain drop-shadow-[0_45px_50px_rgba(0,0,0,.7)]"
           width="1774"
           height="887"
         >
         <img
           ref="overlay"
-          :key="cars[incoming].src"
-          :src="cars[incoming].src"
+          :key="incomingCar.src"
+          :src="incomingCar.src"
           alt=""
           aria-hidden="true"
           class="absolute inset-0 block h-auto w-full object-contain"
@@ -145,4 +147,3 @@ onBeforeUnmount(() => {
   .text-outline { -webkit-text-stroke-width: .7px; }
 }
 </style>
-

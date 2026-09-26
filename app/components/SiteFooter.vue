@@ -5,12 +5,16 @@ const config = useRuntimeConfig()
 const email = ref('')
 const joined = ref(false)
 const pending = ref(false)
+const error = ref('')
 
 async function subscribe() {
   pending.value = true
+  error.value = ''
   try {
     await $fetch('/api/public/newsletter', { method: 'POST', body: { email: email.value, consent: true } })
     joined.value = true
+  } catch {
+    error.value = 'Could not subscribe right now. Please try again.'
   } finally {
     pending.value = false
   }
@@ -43,11 +47,13 @@ async function subscribe() {
             <input v-model="email" required type="email" autocomplete="email" placeholder="Your email" aria-label="Email for newsletter" class="min-w-0 flex-1 bg-transparent py-3 text-sm outline-none placeholder:text-white/25">
             <button type="submit" :disabled="pending" class="px-2 text-acid" aria-label="Join newsletter"><ArrowRight :size="18" /></button>
           </form>
+          <p v-if="!joined" class="mt-3 text-[10px] leading-4 text-white/25">By subscribing, you agree to receive occasional marketing emails. You can unsubscribe at any time. See our <NuxtLink to="/privacy" class="underline hover:text-white">privacy notice</NuxtLink>.</p>
+          <p v-if="error" class="mt-3 text-xs text-red-300" role="alert">{{ error }}</p>
         </div>
       </div>
       <div class="flex flex-col gap-3 pt-6 text-xs text-white/30 sm:flex-row sm:items-center sm:justify-between">
         <span>© {{ new Date().getFullYear() }} Black Rivor Wrap Studio.</span>
-        <span>Privacy · Terms · Admin</span>
+        <span class="flex gap-4"><NuxtLink to="/privacy" class="hover:text-white">Privacy</NuxtLink><NuxtLink to="/terms" class="hover:text-white">Terms</NuxtLink><NuxtLink to="/admin" class="hover:text-white">Admin</NuxtLink></span>
       </div>
     </div>
   </footer>

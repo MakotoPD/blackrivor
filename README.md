@@ -1,6 +1,18 @@
 # Black Rivor Wrap Studio
 
-Nowa strona i panel operacyjny studia car wrapping w Sunderland: Nuxt, Tailwind CSS, PostgreSQL 18 i Docker.
+Public website and studio operations panel for a Sunderland vehicle wrapping business. Built with Nuxt 4, Tailwind CSS 4, PostgreSQL 18 and Docker.
+
+## Included
+
+- responsive UK-facing marketing site with an animated colour-change hero
+- quote enquiries saved directly to the CRM
+- client database and job history
+- booking management with overlap protection
+- vinyl / PPF stock tracking with reorder levels
+- UK GDPR-aware newsletter subscribers and campaign drafts
+- secure, HTTP-only admin sessions and login rate limiting
+- automatic, checksum-protected SQL migrations on every container start
+- privacy notice and service terms
 
 ## Start lokalny
 
@@ -9,10 +21,11 @@ cp .env.example .env
 pnpm install
 docker compose up -d db
 pnpm db:migrate
+pnpm db:seed # optional demo records
 pnpm dev
 ```
 
-Panel administracyjny jest dostępny pod `/admin`. Przed pierwszym uruchomieniem produkcyjnym ustaw bezpieczne `ADMIN_PASSWORD` i `SESSION_SECRET`.
+The admin panel is available at `/admin`. The local default is `admin@blackrivor.co.uk` / `change-me-now`. Set a strong `ADMIN_PASSWORD` before any public deployment.
 
 ## Docker
 
@@ -20,5 +33,14 @@ Panel administracyjny jest dostępny pod `/admin`. Przed pierwszym uruchomieniem
 docker compose up --build
 ```
 
-Kontener aplikacji automatycznie uruchamia brakujące migracje przed startem serwera.
+The application container waits for PostgreSQL and applies any missing migration before the server starts.
 
+## Checks
+
+```bash
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+Newsletter campaigns are stored and scheduled in the panel. Actual delivery should be connected to a transactional email provider (for example Postmark or Resend) once provider credentials and the sending domain are available.

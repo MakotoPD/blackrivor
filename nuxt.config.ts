@@ -7,9 +7,6 @@ export default defineNuxtConfig({
   vite: { plugins: [tailwindcss()] },
   runtimeConfig: {
     databaseUrl: process.env.DATABASE_URL,
-    adminEmail: process.env.ADMIN_EMAIL || 'admin@blackrivor.co.uk',
-    adminPassword: process.env.ADMIN_PASSWORD || 'change-me-now',
-    sessionSecret: process.env.SESSION_SECRET || 'replace-this-in-production',
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       phone: process.env.NUXT_PUBLIC_PHONE || '+44 7400 123 456',
