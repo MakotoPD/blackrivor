@@ -81,7 +81,7 @@ onBeforeUnmount(() => {
         </h1>
       </div>
 
-      <div class="car-stage pointer-events-none absolute bottom-[120px] left-1/2 z-0 w-[175vw] max-w-none -translate-x-[53%] sm:bottom-[70px] sm:w-[1260px] sm:-translate-x-1/2 lg:bottom-[32px] lg:w-[min(94vw,1650px)] lg:translate-x-[-45%]">
+      <div class="car-stage pointer-events-none absolute bottom-[120px] left-1/2 z-0 w-[175vw] max-w-none -translate-x-[53%] sm:bottom-[70px] sm:w-[1260px] sm:-translate-x-1/2 lg:bottom-[52px] lg:w-[min(82vw,1380px)] lg:translate-x-[-47%]">
         <img
           :src="activeCar.src"
           :alt="`${activeCar.name} wrapped sports coupe`"

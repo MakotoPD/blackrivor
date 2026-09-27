@@ -30,13 +30,33 @@ pnpm dev
 
 The admin panel is available at `/admin`. The local default is `admin@blackrivor.co.uk` / `change-me-now`. Set a strong `ADMIN_PASSWORD` and `INTEGRATION_ENCRYPTION_KEY` before any public deployment.
 
-## Docker
+## Production Docker image
 
 ```bash
-docker compose up --build
+cp .env.production.example .env.production
+docker build -t blackrivor:latest .
+docker run -d --name blackrivor \
+  --restart unless-stopped \
+  --env-file .env.production \
+  -p 3000:3000 \
+  blackrivor:latest
 ```
 
-The application container waits for PostgreSQL and applies any missing migration before the server starts.
+`docker-compose.yml` starts only the optional local PostgreSQL instance. In production, `DATABASE_URL` must point to a separately managed PostgreSQL 18 database. The application image applies all missing migrations before the server starts.
+
+Required production variables:
+
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_URL` | External PostgreSQL connection URL; use TLS (`sslmode=require`) when supported by the provider. |
+| `ADMIN_EMAIL` | Administrator email ensured during every container start. |
+| `ADMIN_PASSWORD` | Strong, unique password applied to that administrator during every container start. |
+| `INTEGRATION_ENCRYPTION_KEY` | Secret used to encrypt integration credentials; generate it with `openssl rand -base64 32` and keep it stable. |
+| `NUXT_PUBLIC_SITE_URL` | Public HTTPS origin without a trailing slash. |
+| `NUXT_PUBLIC_PHONE` | Public UK contact number. |
+| `NUXT_PUBLIC_EMAIL` | Public contact email. |
+
+SMTP, WhatsApp, Telegram and webhook credentials are configured later in **Admin → Integrations** and encrypted in the database. The application does not require any `POSTGRES_*` variables; those belong to the external database service.
 
 ## Checks
 

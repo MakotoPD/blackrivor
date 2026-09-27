@@ -14,6 +14,8 @@ RUN pnpm build
 
 FROM base AS runner
 ENV NODE_ENV=production
+ENV NITRO_HOST=0.0.0.0
+ENV NITRO_PORT=3000
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 COPY --from=builder /app/.output ./.output
@@ -21,4 +23,3 @@ COPY scripts ./scripts
 COPY db ./db
 EXPOSE 3000
 CMD ["sh", "-c", "pnpm db:migrate && node .output/server/index.mjs"]
-
