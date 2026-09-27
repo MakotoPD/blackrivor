@@ -96,5 +96,8 @@ onBeforeUnmount(() => {
 .process-step > * { transition: opacity .55s ease, transform .55s ease; }
 .process-step:not(.is-active) > * { opacity: .32; transform: translateY(14px); }
 .process-step.is-active :deep(svg) { color: #0a0a0a; transform: rotate(-3deg); }
+@media (prefers-reduced-motion: reduce) {
+  .process-step > * { transition: none; }
+  .process-step:not(.is-active) > * { opacity: 1; transform: none; }
+}
 </style>
-

@@ -38,7 +38,7 @@ async function submit() {
     <div class="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full border border-black/10" />
     <div class="absolute -right-20 -top-20 h-[340px] w-[340px] rounded-full border border-black/10" />
     <div class="relative mx-auto grid max-w-[1500px] gap-14 px-5 py-24 sm:px-8 lg:grid-cols-[.75fr_1.25fr] lg:px-12 lg:py-32">
-      <div>
+      <div data-reveal>
         <p class="eyebrow text-black/50">Your car. Your call.</p>
         <h2 class="mt-6 font-display text-[clamp(3rem,6vw,6.5rem)] font-semibold uppercase leading-[.85] tracking-[-.06em]">
           Let’s make<br>it yours.
@@ -53,7 +53,7 @@ async function submit() {
         </div>
       </div>
 
-      <div v-if="sent" class="grid min-h-[480px] place-items-center border border-black/15 bg-black p-8 text-center text-white sm:p-12">
+      <div v-if="sent" data-reveal class="grid min-h-[480px] place-items-center border border-black/15 bg-black p-8 text-center text-white sm:p-12">
         <div>
           <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-acid text-ink"><Check :size="26" /></span>
           <h3 class="mt-8 font-display text-4xl font-semibold">Enquiry received.</h3>
@@ -61,7 +61,7 @@ async function submit() {
         </div>
       </div>
 
-      <form v-else class="grid gap-x-5 gap-y-6 bg-ink p-6 text-white sm:grid-cols-2 sm:p-9" @submit.prevent="submit">
+      <form v-else data-reveal class="grid gap-x-5 gap-y-6 bg-ink p-6 text-white sm:grid-cols-2 sm:p-9" @submit.prevent="submit">
         <label class="field">
           <span>Your name *</span>
           <input v-model="form.name" required autocomplete="name" placeholder="Alex Morgan">
@@ -136,4 +136,3 @@ async function submit() {
 .field textarea::placeholder { color: rgb(255 255 255 / .25); }
 .field select option { background: #141414; }
 </style>
-

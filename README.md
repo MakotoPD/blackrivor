@@ -5,6 +5,7 @@ Public website and studio operations panel for a Sunderland vehicle wrapping bus
 ## Included
 
 - responsive UK-facing marketing site with an animated colour-change hero
+- sitemap, robots rules, canonical URLs, OpenGraph images and local business structured data
 - quote enquiries saved directly to the CRM
 - client database and job history
 - booking management with overlap protection
