@@ -2,6 +2,7 @@ const channels: Record<string, string[]> = {
   email: ['host', 'port', 'secure', 'username', 'from', 'to'],
   whatsapp: ['phoneNumberId', 'to', 'templateName', 'templateLanguage', 'apiVersion'],
   telegram: ['chatId'],
+  discord: [],
   webhook: ['url']
 }
 const allowedEvents = ['new_enquiry', 'new_booking', 'low_stock', 'job_status', 'newsletter_unsubscribe']
@@ -26,6 +27,9 @@ export default defineEventHandler(async (event) => {
   }
   const events = Array.isArray(body.events) ? body.events.filter(value => allowedEvents.includes(value)) : []
   const secretValue = String(body.secret || '').trim()
+  if (existing.channel === 'discord' && secretValue && !isDiscordWebhookUrl(secretValue)) {
+    throw createError({ statusCode: 400, statusMessage: 'Enter a valid Discord webhook URL' })
+  }
   const secretEncrypted = secretValue ? encryptIntegrationSecret(secretValue) : existing.secret_encrypted
   if (body.enabled && (!fields.every(key => configuration[key]) || !secretEncrypted && existing.channel !== 'webhook')) {
     throw createError({ statusCode: 400, statusMessage: 'Complete the required connection details before enabling this integration' })

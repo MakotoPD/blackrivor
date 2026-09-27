@@ -11,7 +11,7 @@ Public website and studio operations panel for a Sunderland vehicle wrapping bus
 - vinyl / PPF stock tracking with reorder levels
 - Tiptap newsletter composer with image/link formatting, live preview and campaign history
 - SMTP delivery, scheduled campaigns and per-recipient unsubscribe links
-- encrypted Email, WhatsApp Cloud API, Telegram and webhook notification integrations
+- encrypted Email, WhatsApp Cloud API, Telegram, Discord and webhook notification integrations
 - alerts for enquiries, bookings, low film stock, job changes and unsubscribes
 - secure, HTTP-only admin sessions and login rate limiting
 - automatic, checksum-protected SQL migrations on every container start
@@ -56,7 +56,7 @@ Required production variables:
 | `NUXT_PUBLIC_PHONE` | Public UK contact number. |
 | `NUXT_PUBLIC_EMAIL` | Public contact email. |
 
-SMTP, WhatsApp, Telegram and webhook credentials are configured later in **Admin → Integrations** and encrypted in the database. The application does not require any `POSTGRES_*` variables; those belong to the external database service.
+SMTP, WhatsApp, Telegram, Discord and webhook credentials are configured later in **Admin → Integrations** and encrypted in the database. The application does not require any `POSTGRES_*` variables; those belong to the external database service.
 
 ## Checks
 
@@ -70,6 +70,6 @@ pnpm build
 
 Configure channels in **Admin → Integrations**. Email uses standard SMTP through Nodemailer, so it works with a hosted mailbox or a transactional provider that exposes SMTP. The same enabled SMTP connection delivers internal email alerts and newsletters.
 
-WhatsApp connects directly to Meta Cloud API and expects an approved utility template with one body variable (`{{1}}`). Telegram uses a bot token and chat ID. The webhook channel can forward the same events to tools such as n8n or Make. Provider credentials are encrypted at rest and never returned to the browser.
+WhatsApp connects directly to Meta Cloud API and expects an approved utility template with one body variable (`{{1}}`). Telegram uses a bot token and chat ID. Discord posts through a channel webhook URL. The custom webhook channel can forward the same events to tools such as n8n or Make. Provider credentials are encrypted at rest and never returned to the browser.
 
 Scheduled newsletter campaigns are checked once per minute. Every recipient receives an individual unsubscribe URL, plus standard `List-Unsubscribe` headers. Campaign events and delivery results remain available in the admin history.

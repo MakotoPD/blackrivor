@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { CheckCircle2, FlaskConical, LoaderCircle, Mail, MessageCircle, Save, Send, Webhook, XCircle } from '@lucide/vue'
+import { CheckCircle2, FlaskConical, Hash, LoaderCircle, Mail, MessageCircle, Save, Send, Webhook, XCircle } from '@lucide/vue'
 
 type Integration = { id: string, channel: string, enabled: boolean, configuration: Record<string, string>, events: string[], secret_configured: boolean, secret?: string, last_test_at?: string, last_error?: string, feedback?: string, busy?: boolean }
 type Delivery = { id: number, channel: string, event_type: string, status: 'sent' | 'failed', message: string, error?: string, created_at: string }
 type Field = { key: string, label: string, placeholder?: string, type?: string, options?: { label: string, value: string }[] }
 
-const icons = { email: Mail, whatsapp: MessageCircle, telegram: Send, webhook: Webhook }
+const icons = { email: Mail, whatsapp: MessageCircle, telegram: Send, discord: Hash, webhook: Webhook }
 const details: Record<string, { title: string, description: string, secret: string, fields: Field[] }> = {
   email: { title: 'Email via SMTP', description: 'Works with any standard SMTP mailbox or transactional email service.', secret: 'SMTP password', fields: [
     { key: 'host', label: 'SMTP host', placeholder: 'smtp.example.com' }, { key: 'port', label: 'Port', placeholder: '587', type: 'number' },
@@ -18,6 +18,7 @@ const details: Record<string, { title: string, description: string, secret: stri
     { key: 'apiVersion', label: 'Graph API version', placeholder: 'v23.0' }
   ] },
   telegram: { title: 'Telegram bot', description: 'A simple bot is usually the easiest zero-cost channel for internal alerts.', secret: 'Bot token', fields: [{ key: 'chatId', label: 'Chat or group ID', placeholder: '-1001234567890' }] },
+  discord: { title: 'Discord webhook', description: 'Post operational alerts directly to the Discord channel selected when the webhook was created.', secret: 'Discord webhook URL', fields: [] },
   webhook: { title: 'Custom webhook', description: 'Send a JSON event to n8n, Make, Zapier or your own endpoint.', secret: 'Bearer token (optional)', fields: [{ key: 'url', label: 'HTTPS endpoint', placeholder: 'https://automation.example.com/hooks/black-rivor' }] }
 }
 const eventOptions = [

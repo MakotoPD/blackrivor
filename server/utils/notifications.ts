@@ -1,6 +1,6 @@
 type NotificationRow = {
   id: string
-  channel: 'email' | 'whatsapp' | 'telegram' | 'webhook'
+  channel: 'email' | 'whatsapp' | 'telegram' | 'discord' | 'webhook'
   configuration: Record<string, string>
   secret_encrypted: string | null
 }
@@ -11,6 +11,15 @@ const eventLabels: Record<string, string> = {
   low_stock: 'Low film stock',
   job_status: 'Job status changed',
   newsletter_unsubscribe: 'Newsletter unsubscribe'
+}
+
+export function isDiscordWebhookUrl(value: string) {
+  try {
+    const url = new URL(value)
+    return url.protocol === 'https:' && ['discord.com', 'discordapp.com'].includes(url.hostname) && /^\/api\/webhooks\/\d+\/[^/]+\/?$/.test(url.pathname)
+  } catch {
+    return false
+  }
 }
 
 async function sendNotification(row: NotificationRow, eventType: string, message: string) {
@@ -47,6 +56,17 @@ async function sendNotification(row: NotificationRow, eventType: string, message
       body: JSON.stringify({ chat_id: config.chatId, text: `*${title}*\n${message}`, parse_mode: 'Markdown' })
     })
     if (!response.ok) throw new Error(`Telegram returned ${response.status}`)
+  } else if (row.channel === 'discord') {
+    if (!isDiscordWebhookUrl(secret)) throw new Error('Discord webhook URL is invalid')
+    const response = await fetch(secret, {
+      method: 'POST', signal,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'Black Rivor',
+        embeds: [{ title, description: message.slice(0, 4000), color: 0xc9ff32, timestamp: new Date().toISOString() }]
+      })
+    })
+    if (!response.ok) throw new Error(`Discord returned ${response.status}`)
   } else {
     if (!config.url) throw new Error('Webhook URL is missing')
     const response = await fetch(config.url, {
