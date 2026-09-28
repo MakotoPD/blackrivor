@@ -35,6 +35,9 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/css/main.css'],
+  // Bundle icons with the app's Vue: loaded from node_modules they bring a second Vue copy,
+  // and SSR fails with "Cannot destructure property 'size' of 'useLucideProps(...)'".
+  build: { transpile: ['@lucide/vue'] },
   vite: { plugins: [tailwindcss()] },
   routeRules: {
     '/admin/**': { ssr: false, robots: false, sitemap: false },
