@@ -2,6 +2,7 @@
 import { ArrowRight, Camera, MapPin, Phone } from '@lucide/vue'
 
 const config = useRuntimeConfig()
+const t = useSiteContent()
 const email = ref('')
 const joined = ref(false)
 const pending = ref(false)
@@ -27,21 +28,19 @@ async function subscribe() {
       <div class="grid gap-14 border-b border-white/10 pb-16 lg:grid-cols-[1fr_.6fr_.6fr]">
         <div>
           <AppLogo />
-          <p class="mt-6 max-w-sm text-sm leading-6 text-white/45">
-            Vehicle wrapping, paint protection and window tinting fitted with care in Sunderland, Tyne and Wear.
-          </p>
+          <p data-edit="footer.about" class="mt-6 max-w-sm text-sm leading-6 text-white/45">{{ t('footer.about') }}</p>
         </div>
         <div>
-          <p class="text-xs uppercase tracking-[.18em] text-white/35">Visit & contact</p>
+          <p data-edit="footer.contactTitle" class="text-xs uppercase tracking-[.18em] text-white/35">{{ t('footer.contactTitle') }}</p>
           <div class="mt-5 grid gap-3 text-sm text-white/70">
-            <span class="flex items-center gap-3"><MapPin :size="16" /> Sunderland, Tyne and Wear</span>
+            <span data-edit="footer.location" class="flex items-center gap-3"><MapPin :size="16" /> {{ t('footer.location') }}</span>
             <a :href="`tel:${config.public.phone}`" class="flex items-center gap-3 transition hover:text-acid"><Phone :size="16" /> {{ config.public.phone }}</a>
             <a href="#" class="flex items-center gap-3 transition hover:text-acid"><Camera :size="16" /> Instagram</a>
           </div>
         </div>
         <div>
-          <p class="text-xs uppercase tracking-[.18em] text-white/35">Stay in the loop</p>
-          <p class="mt-5 text-sm leading-6 text-white/55">New finishes, recent transformations and the occasional open slot.</p>
+          <p data-edit="footer.newsletterTitle" class="text-xs uppercase tracking-[.18em] text-white/35">{{ t('footer.newsletterTitle') }}</p>
+          <p data-edit="footer.newsletterText" class="mt-5 text-sm leading-6 text-white/55">{{ t('footer.newsletterText') }}</p>
           <p v-if="joined" class="mt-5 text-sm font-semibold text-acid">You’re on the list.</p>
           <form v-else class="mt-5 flex border-b border-white/20" @submit.prevent="subscribe">
             <input v-model="email" required type="email" autocomplete="email" placeholder="Your email" aria-label="Email for newsletter" class="min-w-0 flex-1 bg-transparent py-3 text-sm outline-none placeholder:text-white/25">

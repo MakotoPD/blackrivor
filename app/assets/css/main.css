@@ -60,6 +60,26 @@ a {
   text-transform: uppercase;
 }
 
+/* Copy editable in Admin → Website keeps the line breaks typed in the editor. */
+[data-edit] {
+  white-space: pre-line;
+}
+
+/* Editor preview only (plugins/site-editor.client.ts). */
+.is-editing [data-edit] {
+  cursor: pointer;
+  outline: 1px dashed transparent;
+  outline-offset: 3px;
+}
+
+.is-editing [data-edit]:hover {
+  outline-color: #4d7cff;
+}
+
+.is-editing [data-edit].edit-selected {
+  outline: 2px solid #4d7cff;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

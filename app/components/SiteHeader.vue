@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ArrowUpRight, Menu, X } from '@lucide/vue'
 
+const t = useSiteContent()
 const open = ref(false)
 const links = [
-  { label: 'Services', href: '#services' },
-  { label: 'Work', href: '#work' },
-  { label: 'Process', href: '#process' },
-  { label: 'Pricing', href: '#pricing' }
+  { key: 'nav.services', href: '#services' },
+  { key: 'nav.work', href: '#work' },
+  { key: 'nav.process', href: '#process' },
+  { key: 'nav.pricing', href: '#pricing' }
 ]
 
 function closeMenu() {
@@ -32,16 +33,18 @@ onBeforeUnmount(() => {
           v-for="link in links"
           :key="link.href"
           :href="link.href"
+          :data-edit="link.key"
           class="transition hover:text-white"
-        >{{ link.label }}</a>
+        >{{ t(link.key) }}</a>
       </nav>
 
       <div class="flex items-center gap-3">
         <a
           href="#quote"
+          data-edit="nav.button"
           class="hidden items-center gap-2 rounded-full bg-acid px-5 py-3 text-sm font-semibold text-ink transition hover:bg-white sm:inline-flex"
         >
-          Get a quote
+          {{ t('nav.button') }}
           <ArrowUpRight :size="16" :stroke-width="2" />
         </a>
         <button
@@ -65,15 +68,16 @@ onBeforeUnmount(() => {
           v-for="(link, index) in links"
           :key="link.href"
           :href="link.href"
+          :data-edit="link.key"
           class="flex items-center justify-between border-b border-white/10 py-6 font-display text-3xl text-white"
           @click="closeMenu"
         >
-          {{ link.label }}
+          {{ t(link.key) }}
           <span class="font-sans text-xs text-white/30">0{{ index + 1 }}</span>
         </a>
       </nav>
-      <a href="#quote" class="flex items-center justify-between rounded-full bg-acid px-6 py-4 font-semibold text-ink" @click="closeMenu">
-        Get a free quote
+      <a href="#quote" data-edit="nav.menuButton" class="flex items-center justify-between rounded-full bg-acid px-6 py-4 font-semibold text-ink" @click="closeMenu">
+        {{ t('nav.menuButton') }}
         <ArrowUpRight :size="18" />
       </a>
     </div>

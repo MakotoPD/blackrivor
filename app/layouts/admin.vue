@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CalendarDays, ClipboardList, Inbox, LayoutDashboard, LogOut, Mail, Menu, PackageOpen, Settings2, Users, X, ExternalLink } from '@lucide/vue'
+import { CalendarDays, ClipboardList, Inbox, LayoutDashboard, LogOut, Mail, Menu, PackageOpen, PanelsTopLeft, Settings2, Users, X, ExternalLink } from '@lucide/vue'
 
 const route = useRoute()
 const mobileOpen = ref(false)
@@ -11,6 +11,7 @@ const nav = [
   { label: 'Jobs', to: '/admin/jobs', icon: ClipboardList },
   { label: 'Film inventory', to: '/admin/inventory', icon: PackageOpen },
   { label: 'Newsletter', to: '/admin/newsletter', icon: Mail },
+  { label: 'Website', to: '/admin/website', icon: PanelsTopLeft },
   { label: 'Integrations', to: '/admin/integrations', icon: Settings2 }
 ]
 

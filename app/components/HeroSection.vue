@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ArrowDown, ArrowUpRight } from '@lucide/vue'
 
+const t = useSiteContent()
 const cars = [
   { name: 'Pearl Silver', src: '/images/hero-car-silver.png', swatch: '#d7d9da' },
   { name: 'Acid Lime', src: '/images/hero-car-acid.png', swatch: '#c9ff32' },
@@ -68,16 +69,14 @@ onBeforeUnmount(() => {
     <div class="relative z-10 mx-auto flex min-h-[760px] max-w-[1500px] flex-col px-5 pb-10 pt-32 sm:min-h-[820px] sm:px-8 lg:min-h-[900px] lg:px-12 lg:pt-36">
       <div class="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[.2em] text-white/55">
         <span class="h-px w-8 bg-acid" />
-        Sunderland · North East
+        <span data-edit="hero.location">{{ t('hero.location') }}</span>
       </div>
 
       <div class="relative mt-8 max-w-[1130px]">
-        <p class="mb-4 max-w-sm text-sm leading-6 text-white/55 sm:absolute sm:right-0 sm:top-4 sm:mb-0">
-          Precision vinyl wrapping, paint protection and window tinting — fitted one car at a time.
-        </p>
+        <p data-edit="hero.intro" class="mb-4 max-w-sm text-sm leading-6 text-white/55 sm:absolute sm:right-0 sm:top-4 sm:mb-0">{{ t('hero.intro') }}</p>
         <h1 class="font-display text-[clamp(3.35rem,9.6vw,9.2rem)] font-semibold uppercase leading-[.79] tracking-[-.065em] text-white">
-          Same car.<br>
-          <span class="text-outline">New attitude.</span>
+          <span data-edit="hero.title">{{ t('hero.title') }}</span><br>
+          <span data-edit="hero.titleOutline" class="text-outline">{{ t('hero.titleOutline') }}</span>
         </h1>
       </div>
 
@@ -104,12 +103,12 @@ onBeforeUnmount(() => {
 
       <div class="relative z-10 mt-auto flex items-end justify-between gap-4">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <a href="#quote" class="group inline-flex w-fit items-center gap-3 rounded-full bg-acid px-6 py-4 font-semibold text-ink transition hover:bg-white">
-            Start your transformation
+          <a href="#quote" data-edit="hero.button" class="group inline-flex w-fit items-center gap-3 rounded-full bg-acid px-6 py-4 font-semibold text-ink transition hover:bg-white">
+            {{ t('hero.button') }}
             <ArrowUpRight :size="18" class="transition group-hover:rotate-45" />
           </a>
-          <a href="#services" class="hidden items-center gap-2 text-sm text-white/65 transition hover:text-white sm:inline-flex">
-            Explore services <ArrowDown :size="16" />
+          <a href="#services" data-edit="hero.link" class="hidden items-center gap-2 text-sm text-white/65 transition hover:text-white sm:inline-flex">
+            {{ t('hero.link') }} <ArrowDown :size="16" />
           </a>
         </div>
 

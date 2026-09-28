@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ArrowRight, Check, LoaderCircle } from '@lucide/vue'
 
+const t = useSiteContent()
 const form = reactive({
   name: '',
   email: '',
@@ -39,17 +40,11 @@ async function submit() {
     <div class="absolute -right-20 -top-20 h-[340px] w-[340px] rounded-full border border-black/10" />
     <div class="relative mx-auto grid max-w-[1500px] gap-14 px-5 py-24 sm:px-8 lg:grid-cols-[.75fr_1.25fr] lg:px-12 lg:py-32">
       <div data-reveal>
-        <p class="eyebrow text-black/50">Your car. Your call.</p>
-        <h2 class="mt-6 font-display text-[clamp(3rem,6vw,6.5rem)] font-semibold uppercase leading-[.85] tracking-[-.06em]">
-          Let’s make<br>it yours.
-        </h2>
-        <p class="mt-7 max-w-md text-base leading-7 text-black/60">
-          Tell us what you drive and what you have in mind. Add your registration if you know it — we’ll reply with the right questions and a clear next step.
-        </p>
+        <p data-edit="quote.eyebrow" class="eyebrow text-black/50">{{ t('quote.eyebrow') }}</p>
+        <h2 data-edit="quote.title" class="mt-6 font-display text-[clamp(3rem,6vw,6.5rem)] font-semibold uppercase leading-[.85] tracking-[-.06em]">{{ t('quote.title') }}</h2>
+        <p data-edit="quote.text" class="mt-7 max-w-md text-base leading-7 text-black/60">{{ t('quote.text') }}</p>
         <div class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold">
-          <span class="inline-flex items-center gap-2"><Check :size="16" /> Free estimate</span>
-          <span class="inline-flex items-center gap-2"><Check :size="16" /> No hard sell</span>
-          <span class="inline-flex items-center gap-2"><Check :size="16" /> Direct reply</span>
+          <span v-for="n in 3" :key="n" :data-edit="`quote.point${n}`" class="inline-flex items-center gap-2"><Check :size="16" /> {{ t(`quote.point${n}`) }}</span>
         </div>
       </div>
 
@@ -108,9 +103,10 @@ async function submit() {
         <button
           type="submit"
           :disabled="pending"
+          data-edit="quote.button"
           class="group flex min-h-14 items-center justify-between bg-acid px-5 font-semibold text-ink transition hover:bg-white disabled:cursor-wait disabled:opacity-70 sm:col-span-2"
         >
-          {{ pending ? 'Sending...' : 'Request my free quote' }}
+          {{ pending ? 'Sending...' : t('quote.button') }}
           <LoaderCircle v-if="pending" :size="19" class="animate-spin" />
           <ArrowRight v-else :size="19" class="transition group-hover:translate-x-1" />
         </button>

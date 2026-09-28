@@ -1,32 +1,12 @@
 <script setup lang="ts">
 import { ArrowDownRight } from '@lucide/vue'
 
+const t = useSiteContent()
 const root = ref<HTMLElement | null>(null)
 const progress = ref(0)
 const activeStep = ref(0)
 
-const steps = [
-  {
-    title: 'Tell us about the car',
-    text: 'Send the make, model and a few photos. We’ll talk through what you want to cover and whether a colour change, PPF or a combination is right for you.'
-  },
-  {
-    title: 'Receive a clear quote',
-    text: 'You get a tailored estimate based on body shape, coverage and finish. Once you are happy, a material deposit secures your slot and orders your film.'
-  },
-  {
-    title: 'Hand over the keys',
-    text: 'We inspect, clean and prepare every surface before fitting. Your car is booked as a focused job — never rushed through a production line.'
-  },
-  {
-    title: 'Inspect the result',
-    text: 'We complete the final heat cycle, edge check and quality inspection. At collection, we walk you around the car and explain simple aftercare.'
-  },
-  {
-    title: 'Drive it like it’s new',
-    text: 'Leave in a car that feels completely different, backed by clear care guidance and direct support if you ever need us.'
-  }
-]
+const steps = [1, 2, 3, 4, 5]
 
 function updateProgress() {
   if (!root.value) return
@@ -52,13 +32,9 @@ onBeforeUnmount(() => {
   <section id="process" ref="root" class="relative bg-paper text-ink">
     <div class="mx-auto grid max-w-[1500px] gap-10 px-5 py-24 sm:px-8 lg:grid-cols-[.72fr_1.28fr] lg:px-12 lg:py-32">
       <div class="lg:sticky lg:top-24 lg:h-[calc(100vh-8rem)]">
-        <p class="eyebrow text-black/45">How it works</p>
-        <h2 class="mt-6 max-w-xl font-display text-[clamp(2.8rem,5.3vw,5.6rem)] font-semibold uppercase leading-[.9] tracking-[-.05em]">
-          Five steps.<br>One new look.
-        </h2>
-        <p class="mt-7 max-w-md text-base leading-7 text-black/55">
-          Straightforward from first message to final handover. You always know what happens next.
-        </p>
+        <p data-edit="process.eyebrow" class="eyebrow text-black/45">{{ t('process.eyebrow') }}</p>
+        <h2 data-edit="process.title" class="mt-6 max-w-xl font-display text-[clamp(2.8rem,5.3vw,5.6rem)] font-semibold uppercase leading-[.9] tracking-[-.05em]">{{ t('process.title') }}</h2>
+        <p data-edit="process.text" class="mt-7 max-w-md text-base leading-7 text-black/55">{{ t('process.text') }}</p>
 
         <div class="mt-12 hidden items-center gap-4 lg:flex">
           <span class="font-display text-5xl font-semibold">0{{ activeStep + 1 }}</span>
@@ -72,19 +48,15 @@ onBeforeUnmount(() => {
       <div class="border-t border-black/15">
         <article
           v-for="(step, index) in steps"
-          :key="step.title"
+          :key="step"
           class="process-step grid min-h-[44vh] grid-cols-[52px_1fr] gap-4 border-b border-black/15 py-12 sm:grid-cols-[82px_1fr] sm:py-16 lg:min-h-[58vh] lg:content-center"
           :class="index <= activeStep ? 'is-active' : ''"
         >
-          <span class="pt-2 font-display text-sm font-semibold text-black/35">0{{ index + 1 }}</span>
+          <span class="pt-2 font-display text-sm font-semibold text-black/35">0{{ step }}</span>
           <div>
             <ArrowDownRight :size="28" :stroke-width="1.4" class="mb-8 text-black/25 transition duration-500" />
-            <h3 class="font-display text-[clamp(2rem,4vw,4.6rem)] font-semibold leading-[.94] tracking-[-.04em]">
-              {{ step.title }}
-            </h3>
-            <p class="mt-6 max-w-xl text-base leading-7 text-black/55 sm:text-lg sm:leading-8">
-              {{ step.text }}
-            </p>
+            <h3 :data-edit="`process.${step}.title`" class="font-display text-[clamp(2rem,4vw,4.6rem)] font-semibold leading-[.94] tracking-[-.04em]">{{ t(`process.${step}.title`) }}</h3>
+            <p :data-edit="`process.${step}.text`" class="mt-6 max-w-xl text-base leading-7 text-black/55 sm:text-lg sm:leading-8">{{ t(`process.${step}.text`) }}</p>
           </div>
         </article>
       </div>

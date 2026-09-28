@@ -1,0 +1,132 @@
+// Homepage copy editable in Admin → Website. The text before the first dot is the editor section;
+// keys render in this order. Saved edits override these defaults, so untouched texts follow code changes.
+export const siteContentDefaults: Record<string, string> = {
+  'nav.services': 'Services',
+  'nav.work': 'Work',
+  'nav.process': 'Process',
+  'nav.pricing': 'Pricing',
+  'nav.button': 'Get a quote',
+  'nav.menuButton': 'Get a free quote',
+
+  'hero.location': 'Sunderland · North East',
+  'hero.intro': 'Precision vinyl wrapping, paint protection and window tinting — fitted one car at a time.',
+  'hero.title': 'Same car.',
+  'hero.titleOutline': 'New attitude.',
+  'hero.button': 'Start your transformation',
+  'hero.link': 'Explore services',
+
+  'ticker.1': 'Full colour wraps',
+  'ticker.2': 'Paint protection',
+  'ticker.3': 'Window tinting',
+  'ticker.4': 'Commercial graphics',
+
+  'services.eyebrow': 'What we do',
+  'services.title': 'More than a',
+  'services.titleAccent': 'colour change.',
+  'services.1.title': 'Colour change wraps',
+  'services.1.text': 'Gloss, satin, matte and speciality finishes fitted edge to edge for a clean, factory-like transformation.',
+  'services.1.price': 'From £600',
+  'services.2.title': 'Paint protection film',
+  'services.2.text': 'Clear or satin PPF shields high-impact areas from stone chips, road debris and everyday wear.',
+  'services.2.price': 'Tailored quote',
+  'services.3.title': 'Window tinting',
+  'services.3.text': 'A sharper look, more privacy and reduced glare with road-legal film fitted cleanly to your glass.',
+  'services.3.price': 'From £70',
+  'services.4.title': 'Commercial graphics',
+  'services.4.text': 'Turn your van or fleet into a moving brand asset with considered graphics, lettering and partial wraps.',
+  'services.4.price': 'Tailored quote',
+
+  'studio.imageCaption': 'One vehicle at a time. No rushed assembly line.',
+  'studio.imageStat': '100%',
+  'studio.eyebrow': 'The Black Rivor standard',
+  'studio.title': 'Your car gets\nour full focus.',
+  'studio.text': 'You deal directly with the person fitting your car. From panel preparation to the last heat cycle, every stage is handled with patience, sharp edges and honest communication.',
+  'studio.1.value': '1:1',
+  'studio.1.label': 'Direct installer contact',
+  'studio.2.value': '05–07',
+  'studio.2.label': 'Years typical film life',
+  'studio.3.value': 'UK',
+  'studio.3.label': 'Road-legal tint advice',
+  'studio.link': 'Talk through your car',
+
+  'gallery.eyebrow': 'Built to be noticed',
+  'gallery.title': 'Fresh finish.\nClean detail.',
+  'gallery.text': 'A finish only works when the details disappear: even tension, tucked edges and body lines that still look intentional.',
+  'gallery.1.label': 'Full wrap',
+  'gallery.1.title': 'Satin silver',
+  'gallery.2.label': 'Detail',
+  'gallery.2.title': 'Every edge matters',
+  'gallery.3.label': 'Protection',
+  'gallery.3.title': 'Ready for the road',
+
+  'process.eyebrow': 'How it works',
+  'process.title': 'Five steps.\nOne new look.',
+  'process.text': 'Straightforward from first message to final handover. You always know what happens next.',
+  'process.1.title': 'Tell us about the car',
+  'process.1.text': 'Send the make, model and a few photos. We’ll talk through what you want to cover and whether a colour change, PPF or a combination is right for you.',
+  'process.2.title': 'Receive a clear quote',
+  'process.2.text': 'You get a tailored estimate based on body shape, coverage and finish. Once you are happy, a material deposit secures your slot and orders your film.',
+  'process.3.title': 'Hand over the keys',
+  'process.3.text': 'We inspect, clean and prepare every surface before fitting. Your car is booked as a focused job — never rushed through a production line.',
+  'process.4.title': 'Inspect the result',
+  'process.4.text': 'We complete the final heat cycle, edge check and quality inspection. At collection, we walk you around the car and explain simple aftercare.',
+  'process.5.title': 'Drive it like it’s new',
+  'process.5.text': 'Leave in a car that feels completely different, backed by clear care guidance and direct support if you ever need us.',
+
+  'pricing.eyebrow': 'Guide pricing',
+  'pricing.title': 'Premium look.\nFair price.',
+  'pricing.text': 'Every quote is based on the actual car, panel complexity and film. These ranges give you an honest place to start.',
+  'pricing.1.size': 'Small',
+  'pricing.1.title': 'Hatchback',
+  'pricing.1.price': '£600–£800',
+  'pricing.1.text': 'Fiesta, Polo, Golf-class cars. Full colour change in matte, gloss or satin.',
+  'pricing.2.size': 'Medium',
+  'pricing.2.badge': 'Most popular',
+  'pricing.2.title': 'Saloon / Coupé',
+  'pricing.2.price': '£700–£900',
+  'pricing.2.text': 'Saloons, coupés and larger hatchbacks, measured and fitted to suit their body shape.',
+  'pricing.3.size': 'Large',
+  'pricing.3.title': 'SUV / Estate',
+  'pricing.3.price': '£800–£1,300',
+  'pricing.3.text': 'SUVs, estates and large saloons. Maximum coverage with the same considered finish.',
+  'pricing.benefit1': 'Material deposit secures your slot',
+  'pricing.benefit2': 'Matte, gloss, satin and speciality films',
+  'pricing.benefit3': 'Balance after your final inspection',
+
+  'questions.eyebrow': 'Before you book',
+  'questions.title': 'Good questions.\nClear answers.',
+  'questions.1.question': 'How long does a full wrap take?',
+  'questions.1.answer': 'Most full colour changes take three to five working days, depending on the vehicle, coverage and film. We confirm timing before your booking.',
+  'questions.2.question': 'Will a wrap damage my paint?',
+  'questions.2.answer': 'Quality film applied to sound factory paint should not damage it. We inspect the car before accepting the job and flag repairs, resprays or weak lacquer first.',
+  'questions.3.question': 'How long will the vinyl last?',
+  'questions.3.answer': 'With the right care, premium cast vinyl typically looks its best for around five to seven years. Exposure, mileage and maintenance all play a part.',
+  'questions.4.question': 'Do I need to pay everything upfront?',
+  'questions.4.answer': 'No. A material deposit secures your slot and orders the chosen film. The remaining balance is due after you inspect and approve the completed work.',
+  'questions.5.question': 'Are your window tints UK legal?',
+  'questions.5.answer': 'Yes. We advise on current UK limits and only fit road-legal film to front windows. Rear glass can be tinted more heavily.',
+
+  'quote.eyebrow': 'Your car. Your call.',
+  'quote.title': 'Let’s make\nit yours.',
+  'quote.text': 'Tell us what you drive and what you have in mind. Add your registration if you know it — we’ll reply with the right questions and a clear next step.',
+  'quote.point1': 'Free estimate',
+  'quote.point2': 'No hard sell',
+  'quote.point3': 'Direct reply',
+  'quote.button': 'Request my free quote',
+
+  'footer.about': 'Vehicle wrapping, paint protection and window tinting fitted with care in Sunderland, Tyne and Wear.',
+  'footer.contactTitle': 'Visit & contact',
+  'footer.location': 'Sunderland, Tyne and Wear',
+  'footer.newsletterTitle': 'Stay in the loop',
+  'footer.newsletterText': 'New finishes, recent transformations and the occasional open slot.'
+}
+
+/** Rows worth storing from an editor save: known keys only, trimmed, and only where they differ from the default. */
+export function siteContentOverrides(input: unknown) {
+  const body = (input && typeof input === 'object' ? input : {}) as Record<string, unknown>
+  return Object.entries(siteContentDefaults).flatMap(([key, fallback]) => {
+    const raw = body[key]
+    const value = typeof raw === 'string' ? raw.trim().slice(0, 2000) : fallback
+    return value === fallback ? [] : [{ key, value }]
+  })
+}

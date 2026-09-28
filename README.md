@@ -10,6 +10,7 @@ Public website and studio operations panel for a Sunderland vehicle wrapping bus
 - client database and job history
 - booking management with overlap protection
 - vinyl / PPF stock tracking with reorder levels
+- website text editor (**Admin → Website**): click any homepage text in a live preview, edit it and publish instantly; unedited texts fall back to `shared/utils/siteContent.ts`
 - Tiptap newsletter composer with image/link formatting, live preview and campaign history
 - SMTP delivery, scheduled campaigns and per-recipient unsubscribe links
 - encrypted Email, WhatsApp Cloud API, Telegram, Discord and webhook notification integrations
