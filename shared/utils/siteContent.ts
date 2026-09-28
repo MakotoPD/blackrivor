@@ -118,7 +118,13 @@ export const siteContentDefaults: Record<string, string> = {
   'footer.contactTitle': 'Visit & contact',
   'footer.location': 'Sunderland, Tyne and Wear',
   'footer.newsletterTitle': 'Stay in the loop',
-  'footer.newsletterText': 'New finishes, recent transformations and the occasional open slot.'
+  'footer.newsletterText': 'New finishes, recent transformations and the occasional open slot.',
+
+  // Profile links shown in the footer; an empty link hides that network.
+  'social.instagram': '',
+  'social.facebook': '',
+  'social.tiktok': '',
+  'social.youtube': ''
 }
 
 /** Rows worth storing from an editor save: known keys only, trimmed, and only where they differ from the default. */
@@ -126,7 +132,19 @@ export function siteContentOverrides(input: unknown) {
   const body = (input && typeof input === 'object' ? input : {}) as Record<string, unknown>
   return Object.entries(siteContentDefaults).flatMap(([key, fallback]) => {
     const raw = body[key]
-    const value = typeof raw === 'string' ? raw.trim().slice(0, 2000) : fallback
+    const text = typeof raw === 'string' ? raw.trim().slice(0, 2000) : fallback
+    const value = key.startsWith('social.') ? profileUrl(text) : text
     return value === fallback ? [] : [{ key, value }]
   })
+}
+
+/** A pasted profile link as an absolute http(s) URL ('instagram.com/x' gets https://); anything else becomes ''. */
+function profileUrl(value: string) {
+  if (!value) return ''
+  try {
+    const url = new URL(/^https?:\/\//i.test(value) ? value : `https://${value}`)
+    return url.hostname.includes('.') ? url.href : ''
+  } catch {
+    return ''
+  }
 }

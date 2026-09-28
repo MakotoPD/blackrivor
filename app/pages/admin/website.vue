@@ -87,11 +87,12 @@ onBeforeRouteLeave(() => !changes.value || window.confirm('Leave without publish
           <div v-for="key in sectionKeys" :key="key" class="mt-3">
             <div class="flex items-center justify-between gap-2">
               <label :for="`field-${key}`" class="text-xs font-semibold text-black/55 first-letter:uppercase">{{ label(key) }}</label>
-              <button v-if="draft[key] !== siteContentDefaults[key]" type="button" title="Restore the original text" class="flex items-center gap-1 text-[11px] text-black/40 transition hover:text-black" @click="draft[key] = siteContentDefaults[key]!">
-                <RotateCcw :size="12" /> Default
+              <button v-if="draft[key] !== siteContentDefaults[key]" type="button" title="Restore the original value" class="flex items-center gap-1 text-[11px] text-black/40 transition hover:text-black" @click="draft[key] = siteContentDefaults[key]!">
+                <RotateCcw :size="12" /> {{ siteContentDefaults[key] ? 'Default' : 'Clear' }}
               </button>
             </div>
-            <textarea :id="`field-${key}`" v-model="draft[key]" class="admin-input mt-1.5 resize-none field-sizing-content" @focus="send({ type: 'focus', key })" />
+            <!-- Only social links start empty: an empty one stays hidden on the site. -->
+            <textarea :id="`field-${key}`" v-model="draft[key]" :placeholder="siteContentDefaults[key] ? undefined : 'Paste the profile link, e.g. https://instagram.com/yourstudio'" class="admin-input mt-1.5 resize-none field-sizing-content" @focus="send({ type: 'focus', key })" />
           </div>
         </fieldset>
       </div>

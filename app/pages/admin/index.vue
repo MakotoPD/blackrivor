@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, CalendarDays, Database, Inbox, LoaderCircle, PackageOpen, PoundSterling, Users } from '@lucide/vue'
+import { ArrowRight, CalendarDays, Database, Inbox, LoaderCircle, PackageOpen, PoundSterling, Trash2, Users } from '@lucide/vue'
 
 definePageMeta({ layout: 'admin' })
 useSeoMeta({ title: 'Overview | Black Rivor Admin', robots: 'noindex, nofollow' })
@@ -12,23 +12,24 @@ type DashboardData = {
 }
 
 const { data, pending, refresh } = await useFetch<DashboardData>('/api/admin/dashboard')
-const seeding = ref(false)
+const seeding = ref<'' | 'add' | 'remove'>('')
 const seedFeedback = ref('')
 const formatDate = (value: string) => new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date(value))
 const money = (value: number) => new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }).format(value)
 
-async function loadDemoData() {
-  if (!window.confirm('Add example CRM records? Existing data will not be removed.')) return
-  seeding.value = true
+async function changeDemoData(action: 'add' | 'remove') {
+  const adding = action === 'add'
+  if (!window.confirm(adding ? 'Add example CRM records? Existing data will not be removed.' : 'Remove the example CRM records? Records you added yourself are kept.')) return
+  seeding.value = action
   seedFeedback.value = ''
   try {
-    await $fetch('/api/admin/demo', { method: 'POST' })
+    await $fetch('/api/admin/demo', { method: adding ? 'POST' : 'DELETE' })
     await refresh()
-    seedFeedback.value = 'Demo data is ready.'
+    seedFeedback.value = adding ? 'Demo data is ready.' : 'Demo data removed.'
   } catch (error: any) {
-    seedFeedback.value = error?.data?.statusMessage || 'Could not add demo data.'
+    seedFeedback.value = error?.data?.statusMessage || `Could not ${action} demo data.`
   } finally {
-    seeding.value = false
+    seeding.value = ''
   }
 }
 </script>
@@ -37,7 +38,10 @@ async function loadDemoData() {
   <section class="p-5 sm:p-8 xl:p-10">
     <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
       <div><p class="text-[10px] font-bold uppercase tracking-[.16em] text-black/35">Today at a glance</p><h1 class="mt-2 font-display text-3xl font-semibold tracking-[-.04em] sm:text-4xl">Studio overview</h1><p class="mt-2 text-sm text-black/45">The work that needs your attention, without the noise.</p></div>
-      <button type="button" :disabled="seeding" class="flex min-h-11 items-center justify-center gap-2 rounded-full border border-black/15 bg-white px-5 text-sm font-semibold transition hover:border-ink hover:bg-ink hover:text-white disabled:opacity-50" @click="loadDemoData"><LoaderCircle v-if="seeding" :size="17" class="animate-spin" /><Database v-else :size="17" />{{ seeding ? 'Adding data...' : 'Load demo data' }}</button>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" :disabled="!!seeding" class="flex min-h-11 items-center justify-center gap-2 rounded-full border border-black/15 bg-white px-5 text-sm font-semibold transition hover:border-red-600 hover:bg-red-600 hover:text-white disabled:opacity-50" @click="changeDemoData('remove')"><LoaderCircle v-if="seeding === 'remove'" :size="17" class="animate-spin" /><Trash2 v-else :size="17" />{{ seeding === 'remove' ? 'Removing data...' : 'Remove demo data' }}</button>
+        <button type="button" :disabled="!!seeding" class="flex min-h-11 items-center justify-center gap-2 rounded-full border border-black/15 bg-white px-5 text-sm font-semibold transition hover:border-ink hover:bg-ink hover:text-white disabled:opacity-50" @click="changeDemoData('add')"><LoaderCircle v-if="seeding === 'add'" :size="17" class="animate-spin" /><Database v-else :size="17" />{{ seeding === 'add' ? 'Adding data...' : 'Load demo data' }}</button>
+      </div>
     </div>
     <p v-if="seedFeedback" class="mt-4 text-sm font-semibold" role="status">{{ seedFeedback }}</p>
 

@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { ArrowRight, Camera, MapPin, Phone } from '@lucide/vue'
+import { ArrowRight, Camera, MapPin, Music2, Phone, Play, ThumbsUp } from '@lucide/vue'
 
 const config = useRuntimeConfig()
 const t = useSiteContent()
+const socials = [
+  { key: 'social.instagram', label: 'Instagram', icon: Camera },
+  { key: 'social.facebook', label: 'Facebook', icon: ThumbsUp },
+  { key: 'social.tiktok', label: 'TikTok', icon: Music2 },
+  { key: 'social.youtube', label: 'YouTube', icon: Play }
+]
 const email = ref('')
 const joined = ref(false)
 const pending = ref(false)
@@ -35,7 +41,9 @@ async function subscribe() {
           <div class="mt-5 grid gap-3 text-sm text-white/70">
             <span data-edit="footer.location" class="flex items-center gap-3"><MapPin :size="16" /> {{ t('footer.location') }}</span>
             <a :href="`tel:${config.public.phone}`" class="flex items-center gap-3 transition hover:text-acid"><Phone :size="16" /> {{ config.public.phone }}</a>
-            <a href="#" class="flex items-center gap-3 transition hover:text-acid"><Camera :size="16" /> Instagram</a>
+            <template v-for="social in socials" :key="social.key">
+              <a v-if="t(social.key)" :href="t(social.key)" :data-edit="social.key" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 transition hover:text-acid"><component :is="social.icon" :size="16" /> {{ social.label }}</a>
+            </template>
           </div>
         </div>
         <div>

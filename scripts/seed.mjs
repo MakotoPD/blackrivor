@@ -5,6 +5,34 @@ if (!databaseUrl) throw new Error('DATABASE_URL is required')
 
 const sql = postgres(databaseUrl, { max: 1 })
 
+// `--remove` deletes the records below, matched on their fictional details (example.co.uk emails,
+// Ofcom drama phone numbers, demo plates and stock), so real studio records are never touched.
+if (process.argv.includes('--remove')) {
+  try {
+    await sql.begin(async (transaction) => {
+      await transaction`
+        DELETE FROM job WHERE (title, registration, vehicle) IN (
+          ('Satin charcoal colour change', 'NX22 WRV', '2022 BMW M4'),
+          ('Front-end PPF package', 'DE21 MOC', '2021 Audi RS5'))
+      `
+      await transaction`DELETE FROM booking WHERE title = 'Satin charcoal colour change' AND registration = 'NX22 WRV' AND vehicle = '2022 BMW M4'`
+      await transaction`DELETE FROM enquiry WHERE lower(email) = 'olivia@example.co.uk' AND phone = '+44 7700 900456'`
+      await transaction`DELETE FROM customer WHERE lower(email) = 'james@example.co.uk' AND phone = '+44 7700 900123'`
+      await transaction`
+        DELETE FROM inventory_item WHERE (brand, name, colour, sku, location) IN (
+          ('3M', '2080', 'Deep Black', 'G12', 'Rack A1'),
+          ('Avery Dennison', 'Supreme Wrapping Film', 'Satin Dark Grey', 'SWF-SDG', 'Rack A2'),
+          ('XPEL', 'Ultimate Plus', 'Clear', 'UPLUS', 'Rack P1'))
+      `
+      await transaction`DELETE FROM newsletter_subscriber WHERE lower(email) = 'demo.subscriber@example.co.uk' AND source = 'admin_demo'`
+    })
+    console.log('Demo data removed')
+  } finally {
+    await sql.end()
+  }
+  process.exit()
+}
+
 try {
   const [customer] = await sql`
     INSERT INTO customer (name, email, phone, postcode, vehicle_registration, notes, marketing_consent)
