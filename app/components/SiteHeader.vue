@@ -2,13 +2,18 @@
 import { ArrowUpRight, Menu, X } from '@lucide/vue'
 
 const t = useSiteContent()
+const route = useRoute()
 const open = ref(false)
 const links = [
   { key: 'nav.services', href: '#services' },
   { key: 'nav.work', href: '#work' },
   { key: 'nav.process', href: '#process' },
-  { key: 'nav.pricing', href: '#pricing' }
+  { key: 'nav.pricing', href: '#pricing' },
+  { key: 'nav.tinting', href: '/window-tinting' }
 ]
+const destination = (href: string) => href.startsWith('#') && route.path !== '/' ? `/${href}` : href
+
+watch(() => route.fullPath, () => closeMenu())
 
 function closeMenu() {
   open.value = false
@@ -28,14 +33,16 @@ onBeforeUnmount(() => {
     <div class="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-5 sm:px-8 lg:px-12">
       <AppLogo />
 
-      <nav class="hidden items-center gap-8 text-sm text-white/70 lg:flex" aria-label="Main navigation">
-        <a
+      <nav class="hidden items-center gap-6 text-sm text-white/70 lg:flex" aria-label="Main navigation">
+        <NuxtLink
           v-for="link in links"
           :key="link.href"
-          :href="link.href"
+          :to="destination(link.href)"
           :data-edit="link.key"
+          :aria-current="route.path === link.href ? 'page' : undefined"
+          :class="route.path === link.href ? 'text-acid' : ''"
           class="transition hover:text-white"
-        >{{ t(link.key) }}</a>
+        >{{ t(link.key) }}</NuxtLink>
       </nav>
 
       <div class="flex items-center gap-3">
@@ -62,19 +69,20 @@ onBeforeUnmount(() => {
   </header>
 
   <Transition name="menu-fade">
-    <div v-if="open" class="fixed inset-0 z-40 flex flex-col bg-ink px-6 pb-8 pt-28 lg:hidden">
+    <div v-if="open" class="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink px-6 pb-8 pt-28 lg:hidden" @keydown.esc="closeMenu">
       <nav class="flex flex-1 flex-col border-t border-white/10" aria-label="Mobile navigation">
-        <a
+        <NuxtLink
           v-for="(link, index) in links"
           :key="link.href"
-          :href="link.href"
+          :to="destination(link.href)"
           :data-edit="link.key"
-          class="flex items-center justify-between border-b border-white/10 py-6 font-display text-3xl text-white"
+          :aria-current="route.path === link.href ? 'page' : undefined"
+          class="flex items-center justify-between gap-4 border-b border-white/10 py-4 font-display text-2xl text-white sm:py-6 sm:text-3xl"
           @click="closeMenu"
         >
           {{ t(link.key) }}
           <span class="font-sans text-xs text-white/30">0{{ index + 1 }}</span>
-        </a>
+        </NuxtLink>
       </nav>
       <a href="#quote" data-edit="nav.menuButton" class="flex items-center justify-between rounded-full bg-acid px-6 py-4 font-semibold text-ink" @click="closeMenu">
         {{ t('nav.menuButton') }}

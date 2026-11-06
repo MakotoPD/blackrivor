@@ -35,6 +35,7 @@ async function subscribe() {
         <div>
           <AppLogo />
           <p data-edit="footer.about" class="mt-6 max-w-sm text-sm leading-6 text-white/45">{{ t('footer.about') }}</p>
+          <NuxtLink to="/window-tinting" class="mt-5 inline-flex items-center gap-2 text-sm text-white/70 transition hover:text-acid"><span data-edit="footer.tintingLink">{{ t('footer.tintingLink') }}</span><ArrowRight :size="15" /></NuxtLink>
         </div>
         <div>
           <p data-edit="footer.contactTitle" class="text-xs uppercase tracking-[.18em] text-white/35">{{ t('footer.contactTitle') }}</p>

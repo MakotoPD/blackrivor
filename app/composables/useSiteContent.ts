@@ -1,4 +1,4 @@
-/** Homepage copy: defaults overlaid with admin edits, which pages/index.vue loads under the 'site-content' key. */
+/** Website copy: defaults overlaid with admin edits, loaded by public pages under the 'site-content' key. */
 export function useSiteContent() {
   const { data } = useNuxtData<Record<string, string>>('site-content')
   const content = computed(() => ({ ...siteContentDefaults, ...data.value }))

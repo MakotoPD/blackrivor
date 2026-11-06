@@ -8,7 +8,27 @@ const { data } = await useFetch<Record<string, string>>('/api/public/content')
 const saved = ref<Record<string, string>>({ ...siteContentDefaults, ...data.value })
 const draft = reactive({ ...saved.value })
 const keys = Object.keys(siteContentDefaults)
-const sections = Object.groupBy(keys, key => key.split('.')[0]!)
+const pages = [
+  { path: '/', label: 'Homepage' },
+  { path: '/window-tinting', label: 'Window tinting & prices' }
+]
+const selectedPage = ref('/')
+const sharedSections = ['nav', 'quote', 'footer', 'social']
+const sections = computed(() => Object.groupBy(keys.filter(key => {
+  if (sharedSections.includes(key.split('.')[0]!)) return true
+  return key.startsWith('tint') === (selectedPage.value === '/window-tinting')
+}), key => key.split('.')[0]!))
+const sectionLabels: Record<string, string> = {
+  nav: 'Navigation · shared',
+  quote: 'Quote form · shared',
+  footer: 'Footer · shared',
+  social: 'Social profiles · shared',
+  tintHero: 'Window tinting · introduction & SEO',
+  tintPricing: 'Vehicle packages & prices',
+  tintExtras: 'Additional tinting services',
+  tintBenefits: 'Window tinting benefits',
+  tintQuestions: 'Window tinting FAQ'
+}
 const changes = computed(() => keys.filter(key => draft[key] !== saved.value[key]).length)
 const frame = ref<HTMLIFrameElement | null>(null)
 const saving = ref(false)
@@ -35,8 +55,8 @@ async function publish() {
   }
 }
 
-function onPreviewMessage({ origin, data: message }: MessageEvent) {
-  if (origin !== location.origin) return
+function onPreviewMessage({ origin, source, data: message }: MessageEvent) {
+  if (origin !== location.origin || source !== frame.value?.contentWindow) return
   if (message?.type === 'ready') send({ type: 'content', content: { ...draft } })
   if (message?.type === 'select') {
     const field = document.getElementById(`field-${message.key}`)
@@ -63,14 +83,19 @@ onBeforeRouteLeave(() => !changes.value || window.confirm('Leave without publish
 <template>
   <section class="grid lg:h-[calc(100dvh-4rem)] lg:grid-cols-[minmax(0,1fr)_25rem]">
     <div class="flex h-[70dvh] flex-col p-3 sm:p-5 lg:h-auto lg:min-h-0">
-      <iframe ref="frame" src="/?edit" title="Website preview" class="min-h-0 w-full flex-1 rounded-2xl border border-black/10 bg-ink" />
+      <iframe :key="selectedPage" ref="frame" :src="`${selectedPage}?edit`" :title="`${pages.find(page => page.path === selectedPage)?.label} preview`" class="min-h-0 w-full flex-1 rounded-2xl border border-black/10 bg-ink" />
       <p class="mt-2 text-center text-[11px] text-black/40">Live preview. Click any text on the page to edit it.</p>
     </div>
 
     <aside class="flex min-h-0 flex-col border-t border-black/10 bg-white lg:border-l lg:border-t-0">
       <div class="border-b border-black/10 p-5">
         <p class="text-[10px] font-bold uppercase tracking-[.16em] text-black/35">Website</p>
-        <h1 class="mt-1 font-display text-2xl font-semibold tracking-[-.03em]">Homepage texts</h1>
+        <h1 class="mt-1 font-display text-2xl font-semibold tracking-[-.03em]">Page content</h1>
+        <label for="website-page" class="mt-4 block text-xs font-semibold text-black/55">Page to edit</label>
+        <select id="website-page" v-model="selectedPage" class="admin-input mt-1.5">
+          <option v-for="page in pages" :key="page.path" :value="page.path">{{ page.label }}</option>
+        </select>
+        <p class="mt-2 text-[11px] leading-5 text-black/45">Switch pages without losing your draft. Navigation, quote form and footer texts are shared across both pages.</p>
         <div class="mt-4 flex gap-2">
           <button type="button" :disabled="!changes || saving" class="action flex-1 bg-ink text-white" @click="publish">
             <LoaderCircle v-if="saving" :size="15" class="animate-spin" /><Save v-else :size="15" />
@@ -83,7 +108,7 @@ onBeforeRouteLeave(() => !changes.value || window.confirm('Leave without publish
 
       <div class="min-h-0 flex-1 overflow-y-auto p-5">
         <fieldset v-for="(sectionKeys, section) in sections" :key="section" class="mb-8">
-          <legend class="text-[10px] font-bold uppercase tracking-[.16em] text-black/35">{{ section }}</legend>
+          <legend class="text-[10px] font-bold uppercase tracking-[.16em] text-black/35">{{ sectionLabels[section] || section }}</legend>
           <div v-for="key in sectionKeys" :key="key" class="mt-3">
             <div class="flex items-center justify-between gap-2">
               <label :for="`field-${key}`" class="text-xs font-semibold text-black/55 first-letter:uppercase">{{ label(key) }}</label>

@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { ArrowRight, Check, LoaderCircle } from '@lucide/vue'
 
+const props = withDefaults(defineProps<{ defaultService?: string; vehicle?: string }>(), {
+  defaultService: 'Full colour wrap',
+  vehicle: ''
+})
 const t = useSiteContent()
 const form = reactive({
   name: '',
   email: '',
   phone: '',
   postcode: '',
-  vehicle: '',
+  vehicle: props.vehicle,
   registration: '',
-  service: 'Full colour wrap',
+  service: props.defaultService,
   finish: 'Not sure yet',
   message: '',
   consent: false
@@ -19,6 +23,8 @@ const sent = ref(false)
 const error = ref('')
 
 const services = ['Full colour wrap', 'Paint protection film', 'Window tinting', 'Commercial graphics']
+
+watch(() => props.vehicle, value => { form.vehicle = value })
 
 async function submit() {
   pending.value = true

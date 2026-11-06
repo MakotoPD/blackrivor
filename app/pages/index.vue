@@ -76,7 +76,10 @@ onBeforeUnmount(() => revealContext?.revert())
             </div>
             <div class="mt-auto">
               <p :data-edit="`services.${n}.price`" class="mb-5 text-xs font-semibold uppercase tracking-[.14em] text-acid">{{ t(`services.${n}.price`) }}</p>
-              <h3 :data-edit="`services.${n}.title`" class="font-display text-3xl font-semibold leading-none">{{ t(`services.${n}.title`) }}</h3>
+              <h3 class="font-display text-3xl font-semibold leading-none">
+                <NuxtLink v-if="n === 3" to="/window-tinting" class="transition hover:text-acid"><span :data-edit="`services.${n}.title`">{{ t(`services.${n}.title`) }}</span></NuxtLink>
+                <span v-else :data-edit="`services.${n}.title`">{{ t(`services.${n}.title`) }}</span>
+              </h3>
               <p :data-edit="`services.${n}.text`" class="mt-5 text-sm leading-6 text-white/45">{{ t(`services.${n}.text`) }}</p>
             </div>
           </article>
@@ -165,6 +168,7 @@ onBeforeUnmount(() => revealContext?.revert())
           <div data-reveal class="benefit"><Sparkles :size="20" /><span data-edit="pricing.benefit2">{{ t('pricing.benefit2') }}</span></div>
           <div data-reveal class="benefit"><SunMedium :size="20" /><span data-edit="pricing.benefit3">{{ t('pricing.benefit3') }}</span></div>
         </div>
+        <NuxtLink to="/window-tinting" class="mt-8 inline-flex min-h-11 items-center gap-3 text-sm font-semibold text-acid transition hover:text-white"><span data-edit="pricing.tintingLink">{{ t('pricing.tintingLink') }}</span><ArrowUpRight :size="17" /></NuxtLink>
       </div>
     </section>
 

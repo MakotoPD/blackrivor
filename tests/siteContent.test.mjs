@@ -24,4 +24,22 @@ describe('website editor content', () => {
       { key: 'social.tiktok', value: 'https://www.tiktok.com/@blackrivor' }
     ])
   })
+
+  it('publishes tinting prices alongside existing homepage and shared content', () => {
+    const stored = Object.fromEntries(siteContentOverrides({
+      ...siteContentDefaults,
+      'hero.title': 'A new look.',
+      'nav.tinting': 'Tinting prices',
+      'tintPricing.2.price': '  From £185  ',
+      'tintQuestions.1.answer': 'Updated package coverage.',
+      'tintPricing.unknown.price': '£1'
+    }).map(({ key, value }) => [key, value]))
+
+    expect(stored).toEqual({
+      'hero.title': 'A new look.',
+      'nav.tinting': 'Tinting prices',
+      'tintPricing.2.price': 'From £185',
+      'tintQuestions.1.answer': 'Updated package coverage.'
+    })
+  })
 })
